@@ -7,10 +7,12 @@ public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
+    private static int M, N;
+
     public static void main(String[] args) throws IOException {
         int[] input = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-        int M = input[0];
-        int N = input[1];
+        M = input[0];
+        N = input[1];
 
         // 1: 익은 토마토
         // 0: 안익은 토마토
@@ -49,15 +51,13 @@ public class Main {
         // 2. 방문하고 나면 익은 토마토로 처리
         while (!queue.isEmpty()) {
             day++;
-            Queue<int[]> newQueue = new ArrayDeque();
-            while (!queue.isEmpty()) {
+            int loopCnt = queue.size();
+            for(int i=0; i<loopCnt; i++) {
                 // 현 위치 구하기
                 int[] currentTomato = queue.poll();
-
                 //인접 미방문 토마토 방문 처리 및 queue 삽입
-                unripeTomato = getCloseTomato(newQueue, map, currentTomato, unripeTomato);
+                unripeTomato = getCloseTomato(queue, map, currentTomato, unripeTomato);
             }
-            queue = newQueue;
         }
         if (unripeTomato > 0) day = -1;
         bw.write(String.valueOf(day));
@@ -68,17 +68,15 @@ public class Main {
         int[][] move = new int[][]{{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
         for (int[] point : move) {
-            try {
-                int currentX = currentPoint[0] + point[0];
-                int currentY = currentPoint[1] + point[1];
-                int tomato = map[currentX][currentY];
-                if (tomato == 0) {
-                    queue.add(new int[]{currentX, currentY});
-                    map[currentX][currentY] = 1;
-                    unripeTomato--;
-                }
-            } catch (Exception e) {
-                // 범위 초과 에러 방지
+            int currentX = currentPoint[0] + point[0];
+            int currentY = currentPoint[1] + point[1];
+            if(N-1 < currentX || currentX < 0 || M-1 < currentY || currentY < 0) continue;
+
+            int tomato = map[currentX][currentY];
+            if (tomato == 0) {
+                queue.add(new int[]{currentX, currentY});
+                map[currentX][currentY] = 1;
+                unripeTomato--;
             }
         }
         return unripeTomato;
