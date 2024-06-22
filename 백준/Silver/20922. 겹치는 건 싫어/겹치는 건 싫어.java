@@ -21,21 +21,19 @@ public class Main {
 		int start = 0;
 		int end = 0;
 		int max = 0;
+		int[] counter = new int[100001];
 		Map<Integer, Integer> map = new HashMap<>();
 		for (int num : inputArr) {    // end 1씩 올리는 과정
-			if (!map.containsKey(num)) {    // 기존에 없던거면 Map 생성
-				map.put(num, 0);
-			}
-			map.put(num, map.get(num) + 1);
+			counter[num]++;
 
 			// end 증가
 			end++;
 
 			// 개수를 초과한 경우, start 위치를 초과하지 않을 때 까지 +1
-			while (map.get(num) > K) {
-				int value = inputArr[start];
-				map.put(value, map.get(value) - 1);
+			while (counter[num] > K) {
+				counter[inputArr[start]]--;
 				start++;
+
 			}
 
 			if (end - start > max) {
