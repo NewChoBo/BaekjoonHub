@@ -30,7 +30,7 @@ public class Main {
         int Q = Integer.parseInt(br.readLine());
         for (int i = 0; i < Q; i++) {
             String input = br.readLine();
-            if (word.get(input) != null) System.out.println(word.get(input));
+            if (word.get(input) != null) bw.write(word.get(input) + "\n");
             else {
                 int cnt = 0;
                 Map<Character, WordCounter> child = parent;
@@ -41,14 +41,14 @@ public class Main {
                     WordCounter wordCounter = child.get(c);
                     cnt += wordCounter.counter;
                     child = wordCounter.child;
-//                    System.out.println("문자: " + c + ", 중간점검: " + wordCounter.counter + ", 자식 갯수: " + child.size());
                 }
-                System.out.println(cnt + N);
+                bw.write((cnt + N) + "\n");
             }
         }
 
         //BTREE를 사용하면 될 것 같은데
         // 다른 문자가 나올 때 까지 비교
+        bw.flush();
     }
 }
 
