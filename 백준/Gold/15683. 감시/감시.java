@@ -66,26 +66,29 @@ public class Main {
 			Set<Point> tempSet = new HashSet<>(set);
 			for (int dir : way) {
 				int go = (dir + i) % 4;
-				int[] goWay = directions[go];
-				searchMap(cctv, tempSet, goWay);
+				Set<Point> pointSet = cctv.pointSet[go];
+				tempSet.addAll(pointSet);
 			}
 			dfs(tempSet, index + 1);
 		}
 	}
 
-	static void searchMap(Point point, Set<Point> set, int[] direction) {
+	static Set<Point> searchMap(Point point, int[] direction) {
 		int x = point.x;
 		int y = point.y;
+		Set<Point> set = new HashSet<>();
 
 		while (x >= 0 && y >= 0 && x < N && y < M) {
 			int num = map[x][y];
 			if (num == 6) {
-				return;
+				break;
 			}
 			set.add(new Point(x, y));
 			x += direction[0];
 			y += direction[1];
 		}
+
+		return set;
 	}
 
 	static void init() throws IOException {
@@ -106,10 +109,17 @@ public class Main {
 				}
 			}
 		}
+
+		for (Cctv cctv : cctvList) {
+			for (int i = 0; i < 4; i++) {
+				cctv.pointSet[i] = searchMap(cctv, directions[i]);
+			}
+		}
 	}
 
 	static class Cctv extends Point {
 		int type;
+		Set<Point>[] pointSet = new HashSet[4];
 
 		Cctv(int x, int y, int type) {
 			super(x, y);
