@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Main {
@@ -45,19 +46,20 @@ public class Main {
             // 1. 구름 이동
             int d = move[0];
             int s = move[1];
+            Set<Cloud> movedClouds = new HashSet<>();   //* 지식이 늘었다. 이미 set 안에 있는 데이터가 변경된다고 set에서 기억하는 hashCode가 변경되지는 않는다.
             for (Cloud cloud : cloudSet) {
                 cloud.MoveCloud(d, s);
 
                 // 2. 구름에서 비 내리기
                 map[cloud.x][cloud.y]++;
+                movedClouds.add(new Cloud(cloud.x, cloud.y));
             }
 
             // 3. 구름 삭제 (추후 교체할 set)
             Set<Cloud> newSet = new HashSet<>();
 
             // 4. 물이 증가한 칸 (비가 내린 칸)에 물 복사 마법 사용 (대각선 방향으로 거리가 1인 칸에 물 있는 바구니 수 만큼 물 양 증가)
-            Set<String> visited = new HashSet<>();
-            for (Cloud cloud : cloudSet) {
+            for (Cloud cloud : movedClouds) {
                 int cnt = 0;
                 for (int way : diagonal) {
                     int[] go = mover[way];
@@ -67,16 +69,16 @@ public class Main {
                     if (map[x][y] != 0) cnt++;
                 }
                 map[cloud.x][cloud.y] += cnt;
-                visited.add(cloud.x + "," + cloud.y);
             }
 
             // 5. 바구니에 저장된 물 양 2 이상이면 구름 만들고, 물 양 2 감소. 3에서 구름 사라졌던 칸은 안됨
             for (int i = 0; i < N; i++) {
                 for (int j = 0; j < N; j++) {
-                    if (map[i][j] < 2 || visited.contains(i + "," + j)) continue;
-                    Cloud newCloud = new Cloud(i, j);
+                    if (map[i][j] < 2 || movedClouds.contains(new Cloud(i, j))) {
+                        continue;
+                    }
                     map[i][j] -= 2;
-                    newSet.add(newCloud);
+                    newSet.add(new Cloud(i, j));
                 }
             }
             cloudSet = newSet;
@@ -110,6 +112,28 @@ public class Main {
 
             this.x = (x % N + N) % N;
             this.y = (y % N + N) % N;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null || getClass() != obj.getClass()) {
+                return false;
+            }
+            Cloud cloud = (Cloud) obj;
+            return x == cloud.x && y == cloud.y;
+        }
+
+        @Override
+        public String toString() {
+            return "Cloud{" + "x=" + x + ", y=" + y + '}';
         }
     }
 }
