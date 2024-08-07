@@ -8,6 +8,10 @@ public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
+    // 이번엔 처음 쓰는 라이브러리를 사용해보았다.
+    // 바로 treeMap. key에 순서가 부여되어있어, 내가 원하는 것보다 큰/작은 키를 찾아 작업할 수 있다는 특징이 있다.
+    // 작은 key 값만 set으로 가져와서 활용하는것도 가능하다.
+
     public static void main(String[] args) throws IOException {
         int N = Integer.parseInt(br.readLine());
         int[] line = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
@@ -20,20 +24,20 @@ public class Main {
         TreeMap<Integer, Integer> map = new TreeMap<>();
 
         for (int i = 0; i < line.length; i++) {
-            NavigableSet<Integer> keySet = map.navigableKeySet();
-            int currentHeight = line[i];
-            Integer height = keySet.ceiling(currentHeight);
-            if (height == null) {
+            int currentHeight = line[i];    // 현재 높이 확인
+            Integer height = map.ceilingKey(currentHeight); // 자신과 같거나 큰 수 중 가장 작은 값
+            
+            if (height == null) {   // 자신과 같거나 큰 항목이 없는 경우
                 sb.append(0);
-            } else {
+            } else {    // 자신보다 큰 항목을 찾은 경우
                 sb.append(map.get(height) + 1);
             }
-            // 특정 값보다 작은 모든 키를 제거합니다.
-            Set<Integer> keysToRemove = map.headMap(currentHeight).keySet();
-            keysToRemove.clear();
             sb.append(" ");
-            map.put(currentHeight, i);
+
+            map.headMap(currentHeight).clear();    // 특정 값보다 작은 모든 키를 제거합니다.
+            map.put(currentHeight, i);  // 자기 자신을 Map에 추가합니다.
+
         }
-        System.out.println(sb.toString());
+        System.out.println(sb);
     }
 }
