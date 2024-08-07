@@ -1,7 +1,6 @@
 import java.io.*;
 import java.util.Arrays;
-import java.util.NavigableSet;
-import java.util.Set;
+import java.util.Map;
 import java.util.TreeMap;
 
 public class Main {
@@ -25,12 +24,12 @@ public class Main {
 
         for (int i = 0; i < line.length; i++) {
             int currentHeight = line[i];    // 현재 높이 확인
-            Integer height = map.ceilingKey(currentHeight); // 자신과 같거나 큰 수 중 가장 작은 값
-            
-            if (height == null) {   // 자신과 같거나 큰 항목이 없는 경우
+            Map.Entry<Integer,Integer> entry = map.higherEntry(currentHeight); // 자신과 같거나 큰 수 중 가장 작은 값
+
+            if (entry == null) {   // 자신과 같거나 큰 항목이 없는 경우
                 sb.append(0);
             } else {    // 자신보다 큰 항목을 찾은 경우
-                sb.append(map.get(height) + 1);
+                sb.append(entry.getValue() + 1);
             }
             sb.append(" ");
 
