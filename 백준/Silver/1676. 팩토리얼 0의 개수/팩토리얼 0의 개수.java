@@ -1,5 +1,4 @@
 import java.io.*;
-import java.math.BigInteger;
 
 public class Main {
     // https://www.acmicpc.net/problem/30802
@@ -9,17 +8,24 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         int input = Integer.parseInt(br.readLine());
-        BigInteger number = BigInteger.ONE;
-        for (int i = input; i > 0; i--) {
-            number = number.multiply(BigInteger.valueOf(i));
+        int cnt2 = 0;
+        int cnt5 = 0;
+
+        for (int i = 1; i <= input; i++) {
+            cnt2 += getCnt(i, 2);
+            cnt5 += getCnt(i, 5);
         }
-        String num = number.toString().trim();
-        char[] chars = num.toCharArray();
+        System.out.println(Math.min(cnt2, cnt5));
+    }
+
+    static int getCnt(int original, int divNo) {
         int cnt = 0;
-        for (int i = chars.length - 1; i >= 0; i--) {
-            if(chars[i] == '0') cnt++;
-            else break;
+
+        while (original % divNo == 0) {
+            original /= divNo;
+            cnt++;
         }
-        System.out.println(cnt);
+
+        return cnt;
     }
 }
