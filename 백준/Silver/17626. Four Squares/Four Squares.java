@@ -42,12 +42,6 @@ public class Main {
                 }
             }
         }
-
-//        StringBuilder sb = new StringBuilder();
-//        for (int num : arr) {
-//            sb.append(num).append(' ');
-//        }
-//        System.out.println(sb);
         System.out.println(arr[n]);
     }
 }
