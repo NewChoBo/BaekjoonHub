@@ -15,8 +15,8 @@ public class Main {
 		// r행 c열을 언제 방문했는가?
 		// N은 15보다 작다
 		long no = 0;
+		long mapSize = (long)Math.pow(2, N);
 		for (int i = N; i >= 1; i--) {
-			long mapSize = (long)Math.pow(2, i);
 			if (r >= mapSize / 2) {
 				no += Math.pow(mapSize, 2) / 2;
 				r -= mapSize / 2;
@@ -25,6 +25,7 @@ public class Main {
 				no += Math.pow(mapSize, 2) / 4;
 				c -= mapSize / 2;
 			}
+			mapSize /= 2;
 		}
 		if (r == 1) {
 			no += 2;
