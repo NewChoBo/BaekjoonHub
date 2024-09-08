@@ -9,24 +9,19 @@ public class Main {
     public static void main(String[] args) throws IOException {
         int L = Integer.parseInt(br.readLine());
         String str = br.readLine();
-
-        int r = 31;
-        int M = 1234567891;
-        BigInteger sum = BigInteger.ZERO;
-        BigInteger bigR = BigInteger.valueOf(r);
-        BigInteger bigM = BigInteger.valueOf(M);
         char[] charArr = str.toCharArray();
-        for (int i = 0; i < charArr.length; i++) {
-            BigInteger index = BigInteger.valueOf(i);
-            char c = charArr[i];
-            BigInteger num = BigInteger.valueOf(c - 'a' + 1);
-            BigInteger bigInteger = bigR.modPow(index, bigM);
-            sum = sum.add(num.multiply(bigInteger));
-        }
-        System.out.println(sum);
+        BigInteger r = BigInteger.valueOf(31);
+        BigInteger M = BigInteger.valueOf(1234567891);
 
-        // 해시 함수. a=1, b=2...
-        // 문자열 혹은 하나의 정수로 치환
-        // 수열의 값
+
+        BigInteger sum = BigInteger.ZERO;
+        BigInteger multiply = BigInteger.ONE;
+        for (int i = 0; i < L; i++) {
+            BigInteger num = BigInteger.valueOf(charArr[i] - 'a' + 1);
+            sum = sum.add(num.multiply(multiply));
+            multiply = multiply.multiply(r);
+        }
+        //출력할때는 1234567891을 나눠주자.
+        System.out.println(sum.mod(M));
     }
 }
