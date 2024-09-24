@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.OptionalInt;
 
 public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -32,7 +33,9 @@ public class Main {
             }
         }
 
-        System.out.println(Arrays.stream(sum[N - 1]).min().getAsInt());
+        OptionalInt optionalInt = Arrays.stream(sum[N - 1]).min();
+        int result = optionalInt.isPresent() ? optionalInt.getAsInt() : Integer.MAX_VALUE;
+        System.out.println(result);
     }
 
     static int getMin(int[] prevSum, int index) {
