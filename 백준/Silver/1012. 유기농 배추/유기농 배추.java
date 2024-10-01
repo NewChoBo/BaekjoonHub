@@ -2,8 +2,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.Arrays;
 import java.util.Queue;
+import java.util.StringTokenizer;
 
 public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -16,26 +16,23 @@ public class Main {
         StringBuilder sb = new StringBuilder();
         while (T-- > 0) {
             // 1. 땅 초기화 및 배추 심기
-            int[] input = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-            int M = input[0];
-            int N = input[1];
-            int K = input[2];
-            int[][] map = new int[M][];
-            for (int i = 0; i < M; i++) {
-                map[i] = new int[N];
-            }
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int M = Integer.parseInt(st.nextToken());
+            int N = Integer.parseInt(st.nextToken());
+            int K = Integer.parseInt(st.nextToken());
+            boolean[][] map = new boolean[M][N];
             while (K-- > 0) {
-                int[] point = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-                int x = point[0];
-                int y = point[1];
-                map[x][y] = 1;
+                st = new StringTokenizer(br.readLine());
+                int x = Integer.parseInt(st.nextToken());
+                int y = Integer.parseInt(st.nextToken());
+                map[x][y] = true;
             }
 
             // 2. 땅 처음부터 순회하며 배추 찾기
             int cnt = 0;
             for (int i = 0; i < M; i++) {
                 for (int j = 0; j < N; j++) {
-                    if (map[i][j] == 1) {
+                    if (map[i][j]) {
                         cnt++;
                         paint(map, new Point(i, j), M, N);
                     }
@@ -46,9 +43,9 @@ public class Main {
         System.out.print(sb);
     }
 
-    static void paint(int[][] map, Point start, int M, int N) {
+    static void paint(boolean[][] map, Point start, int M, int N) {
         Queue<Point> queue = new ArrayDeque<>();
-        map[start.x][start.y] = 0;
+        map[start.x][start.y] = false;
         queue.add(start);
         while (!queue.isEmpty()) {
             Point point = queue.poll();
@@ -58,8 +55,8 @@ public class Main {
                 if (x < 0 || y < 0 || x >= M || y >= N) {
                     continue;
                 }
-                if (map[x][y] == 1) {
-                    map[x][y] = 0;
+                if (map[x][y]) {
+                    map[x][y] = false;
                     queue.add(new Point(x, y));
                 }
             }
@@ -67,7 +64,7 @@ public class Main {
     }
 
     static class Point {
-        static int[][] mover = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        static final int[][] mover = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
         int x, y;
 
         Point(int x, int y) {
