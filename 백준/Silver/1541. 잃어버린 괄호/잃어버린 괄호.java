@@ -8,27 +8,32 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         String input = br.readLine();
+        int[] numbers = Arrays.stream(input.split("[-+]")).mapToInt(Integer::parseInt).toArray();
+
         int cnt = 1;
         boolean flag = false;
         for (char c : input.toCharArray()) {
-            if (c == '+') {
-                cnt++;
-            } else if (c == '-') {
-                flag = true;
-                break;
+            switch (c) {
+                case '+':
+                    cnt++;
+                    break;
+                case '-':
+                    flag = true;
+                    break;
+                default:
+                    break;
             }
+            if (flag) break;
         }
-        int[] numbers = Arrays.stream(input.split("[-+]")).mapToInt(Integer::parseInt).toArray();
         if (!flag) {
             cnt = numbers.length;
         }
         int sum = 0;
-        for (int i = 0; i < numbers.length; i++) {
-            if (i < cnt) {
-                sum += numbers[i];
-            } else {
-                sum -= numbers[i];
-            }
+        for (int i = 0; i < cnt; i++) {
+            sum += numbers[i];
+        }
+        for (int i = cnt; i < numbers.length; i++) {
+            sum -= numbers[i];
         }
         System.out.println(sum);
     }
