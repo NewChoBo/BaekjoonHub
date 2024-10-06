@@ -1,7 +1,10 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Stack;
 
 public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -31,14 +34,14 @@ public class Main {
         boolean[][] visitedMap = new boolean[map.length][map[0].length];
         int cnt = 0;
 
-        Queue<Point> queue = new ArrayDeque();
+        Stack<Point> stack = new Stack<>();
         iPoint.setVisited(visitedMap);
-        queue.add(iPoint);
-        while (!queue.isEmpty()) {
-            Point currentPoint = queue.poll();
+        stack.push(iPoint);
+        while (!stack.isEmpty()) {
+            Point currentPoint = stack.pop();
             List<Point> availableNeighbor = currentPoint.getAvailableNeighbor(map, visitedMap);
             for (Point neighbor : availableNeighbor) {
-                queue.add(neighbor);
+                stack.push(neighbor);
                 if (map[neighbor.x][neighbor.y] == 'P') cnt++;
             }
         }
