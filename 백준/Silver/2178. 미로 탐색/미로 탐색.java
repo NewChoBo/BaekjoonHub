@@ -1,9 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.Stack;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -33,11 +31,11 @@ public class Main {
         }
 
         // map 순회하며 값 확인 시작
-        Stack<int[]> stack = new Stack<>();
+        Queue<int[]> queue = new ArrayDeque<>();
         cntMap[0][0] = 1;
-        stack.add(new int[]{0, 0});
-        while (!stack.isEmpty()) {
-            int[] point = stack.pop();
+        queue.add(new int[]{0, 0});
+        while (!queue.isEmpty()) {
+            int[] point = queue.poll();
             int currentX = point[0];
             int currentY = point[1];
 
@@ -48,7 +46,7 @@ public class Main {
                     continue;
                 }
                 cntMap[x][y] = cntMap[currentX][currentY] + 1;
-                stack.push(new int[]{x, y});
+                queue.add(new int[]{x, y});
             }
         }
 
