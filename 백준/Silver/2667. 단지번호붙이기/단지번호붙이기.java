@@ -34,11 +34,13 @@ public class Main {
         }
 
         // 단지에 속하는 집의 수 오름차순 정렬
-        System.out.println(integerList.size());
+        StringBuilder sb = new StringBuilder();
+        sb.append(integerList.size()).append('\n');
         integerList.sort(Comparator.naturalOrder());
         for (int num : integerList) {
-            System.out.println(num);
+            sb.append(num).append('\n');
         }
+        System.out.print(sb);
     }
 
     static int bfs(int x, int y) {
