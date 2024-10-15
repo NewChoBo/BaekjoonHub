@@ -34,12 +34,12 @@ public class Main {
         int[] cost = new int[N + 1];
         Arrays.fill(cost, Integer.MAX_VALUE);
 
-        Stack<Integer> stack = new Stack();
+        Queue<Integer> queue = new ArrayDeque<>();
         cost[startCity] = 0;
-        stack.add(startCity);
+        queue.add(startCity);
 
-        while (!stack.isEmpty()) {
-            int currentCity = stack.pop();
+        while (!queue.isEmpty()) {
+            int currentCity = queue.poll();
             Map<Integer, Integer> currentBusMap = cities[currentCity];
             for (Map.Entry<Integer, Integer> bus : currentBusMap.entrySet()) {
                 int key = bus.getKey();
@@ -47,7 +47,7 @@ public class Main {
 
                 if (cost[key] > cost[currentCity] + value) {
                     cost[key] = cost[currentCity] + value;
-                    stack.add(key);
+                    queue.add(key);
                 }
             }
         }
