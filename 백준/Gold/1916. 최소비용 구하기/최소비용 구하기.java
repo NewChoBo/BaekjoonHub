@@ -11,9 +11,9 @@ public class Main {
         int M = Integer.parseInt(br.readLine());
 
         // 도시 초기화
-        City[] cities = new City[N + 1];
+        Map<Integer, Integer>[] cities = new HashMap[N + 1];
         for (int i = 0; i < cities.length; i++) {
-            cities[i] = new City();
+            cities[i] = new HashMap<>();
         }
 
         for (int i = 0; i < M; i++) {
@@ -23,9 +23,9 @@ public class Main {
             int endCity = Integer.parseInt(st.nextToken());
             int cost = Integer.parseInt(st.nextToken());
 
-            City city = cities[startCity];
-            int prevCost = city.busMap.getOrDefault(endCity, Integer.MAX_VALUE);
-            if (prevCost > cost) city.busMap.put(endCity, cost);
+            Map<Integer, Integer> city = cities[startCity];
+            int prevCost = city.getOrDefault(endCity, Integer.MAX_VALUE);
+            if (prevCost > cost) city.put(endCity, cost);
         }
 
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -40,7 +40,7 @@ public class Main {
 
         while (!stack.isEmpty()) {
             int currentCity = stack.pop();
-            Map<Integer, Integer> currentBusMap = cities[currentCity].busMap;
+            Map<Integer, Integer> currentBusMap = cities[currentCity];
             for (Map.Entry<Integer, Integer> bus : currentBusMap.entrySet()) {
                 int key = bus.getKey();
                 int value = bus.getValue();
@@ -53,10 +53,5 @@ public class Main {
         }
 
         System.out.println(cost[endCity]);
-    }
-
-    static class City {
-        // 도착지, 가격
-        Map<Integer, Integer> busMap = new HashMap<>();
     }
 }
