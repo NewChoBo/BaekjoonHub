@@ -58,6 +58,7 @@ public class Main {
         queue.add(v1);
         while (!queue.isEmpty()) {
             int current = queue.poll();
+            if (maxArr[current] >= maxArr[v2]) continue;
             for (Map.Entry<Integer, Integer> entry : maps[current].entrySet()) {
                 int key = entry.getKey();
                 int value = entry.getValue();
