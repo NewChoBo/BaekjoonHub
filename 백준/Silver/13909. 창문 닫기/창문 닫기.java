@@ -17,13 +17,8 @@ public class Main {
         // 열려있는 창문의 개수는 몇개인가? 처음에 창문은 모두 닫혀있다
         // 1 <= N <= 2,100,000,000
         int N = Integer.parseInt(br.readLine());
-        int no = 1;
-        int cnt = 0;
-        while (Math.pow(no, 2) <= N) {
-            cnt++;
-            no++;
-        }
-        System.out.println(cnt);
+        int val = (int)Math.sqrt(N);
+        System.out.println(val);
 
         // 1: [1]
         // 2: [1, 0]
