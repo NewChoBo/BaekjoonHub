@@ -8,10 +8,10 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         int N = Integer.parseInt(br.readLine());
-        BigInteger bigInteger = BigInteger.ONE;
+        long num = 1;
         for(int i=1; i<=N; i++) {
-            bigInteger = bigInteger.multiply(BigInteger.valueOf(i));
+            num *= i;
         }
-        System.out.println(bigInteger);
+        System.out.println(num);
     }
 }
